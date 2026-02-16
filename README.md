@@ -141,11 +141,9 @@ console.log(isEmpty("Hello")); // false
 
 ### Exceptions Utilities
 
-```markdown
-
+#### `safeExecute(fn)`
 These helpers make error handling consistent and developer-friendly.
 
-#### `safeExecute(fn)`
 Wraps a function call in `try/catch` and returns either `{ result }` or `{ error }`.
 
 ```ts
@@ -217,5 +215,4 @@ if (error) {
 } else {
   console.log("Result:", result);
 }
-```
 ```
