@@ -1,18 +1,21 @@
-
+```markdown
 # @rajkumarganesan93/uifunctions
 
 A lightweight TypeScript utility library that wraps **Axios** with a configurable client and strongly‑typed helpers for GET, POST, PUT, and DELETE requests.  
+Also includes a **timezone conversion utility** powered by Luxon.  
 Designed for reuse across multiple applications.
 
 ---
 
 ## 📦 Installation
 
+```bash
 npm install @rajkumarganesan93/uifunctions
+```
 
 ---
 
-## ⚙️ Setup
+## ⚙️ Setup (Axios Client)
 
 Before making requests, configure the client once at application startup:
 
@@ -27,7 +30,7 @@ configureClient({
 
 ---
 
-## 🚀 Usage
+## 🚀 Usage (Axios Helpers)
 
 ### GET
 ```ts
@@ -78,15 +81,74 @@ const products: Product[] = response.data;
 
 ---
 
+## 🌍 Timezone Utilities
+
+The library also includes a helper to convert dates between timezones using [Luxon](https://moment.github.io/luxon/).
+
+### Installation (Luxon types)
+
+```bash
+npm install luxon
+npm install --save-dev @types/luxon
+```
+
+### Usage
+
+```ts
+import { convertTimezone } from "@rajkumarganesan93/uifunctions";
+
+const utcDate = "2026-02-16T12:00:00Z";
+
+// Convert UTC → Asia/Kolkata
+const istDate = convertTimezone(utcDate, "UTC", "Asia/Kolkata");
+console.log(istDate); 
+// "2026-02-16T17:30:00+05:30"
+
+// Convert UTC → America/New_York
+const nyDate = convertTimezone(utcDate, "UTC", "America/New_York");
+console.log(nyDate); 
+// "2026-02-16T07:00:00-05:00"
+```
+
+### API
+
+```ts
+convertTimezone(
+  date: string | Date,   // Input date
+  fromZone: string,      // Source timezone (IANA string, e.g. "UTC")
+  toZone: string         // Target timezone (IANA string, e.g. "Asia/Kolkata")
+): string
+```
+
+- **date**: Accepts either a `Date` object or an ISO string.
+- **fromZone**: The timezone of the input date.
+- **toZone**: The timezone you want to convert to.
+- Returns an ISO string in the target timezone.
+- Throws an error if the date or zone is invalid.
+
+---
+
 ## 📂 Typical Project Structure
 
 ```
 my-app/
   src/
     api/
-      client.ts   <-- configureClient here
+      client.ts        <-- configureClient for axios
     features/
-      users.ts    <-- use get/post/put/del here
+      users.ts         <-- use axios helpers
+      timezoneDemo.ts  <-- use convertTimezone
   .env
   package.json
 ```
+
+---
+
+## 🔑 Summary
+- Install with `npm install @rajkumarganesan93/uifunctions`.
+- Call `configureClient()` once at startup with your app’s `.env` values.
+- Use `get`, `post`, `put`, `del` anywhere in your app with type safety.
+- Use `convertTimezone` for reliable timezone conversions.
+```
+
+---
