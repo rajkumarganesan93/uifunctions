@@ -1,7 +1,15 @@
+Here’s your **fully updated README.md**, ready to copy. It reflects everything we’ve scaffolded so far: **API**, **datetime**, **text**, **collections**, and **validation** groups. I’ve skipped `asyncflow` and `math` as requested.
+
+```markdown
 # @rajkumarganesan93/uifunctions
 
-A lightweight TypeScript utility library that wraps **Axios** with a configurable client and strongly‑typed helpers for GET, POST, PUT, and DELETE requests.  
-Also includes a **timezone conversion utility** powered by Luxon.  
+A lightweight TypeScript utility library that provides:
+- **Axios client helpers** (`api.get`, `api.post`, `api.put`, `api.del`) with configuration support.
+- **Datetime utilities** (`formatDate`, `timeAgo`, `convertTimezone`) powered by date-fns and Luxon.
+- **Text utilities** (`capitalize`, `truncate`, `slugify`) for string manipulation.
+- **Collections utilities** (`unique`, `chunk`, `deepClone`) for arrays and objects.
+- **Validation utilities** (`isEmail`, `isEmpty`) for common checks.
+
 Designed for reuse across multiple applications.
 
 ---
@@ -29,121 +37,93 @@ configureClient({
 
 ---
 
-## 🚀 Usage (Axios Helpers)
+## 🚀 Usage
 
-All axios helpers are grouped under the `api` object.
-
-### GET
+### API Helpers
 ```ts
 import { api } from "@rajkumarganesan93/uifunctions";
 
 type User = { id: number; name: string };
 
-const response = await api.get<User[]>("/users");
-console.log(response.data); // typed as User[]
-```
+// GET
+const users = await api.get<User[]>("/users");
 
-### POST
-```ts
-const response = await api.post<User>("/users", { name: "Rajkumar" });
-console.log(response.data);
-```
+// POST
+const newUser = await api.post<User>("/users", { name: "Rajkumar" });
 
-### PUT
-```ts
-const response = await api.put<User>("/users/1", { name: "Updated Name" });
-console.log(response.data);
-```
+// PUT
+const updatedUser = await api.put<User>("/users/1", { name: "Updated Name" });
 
-### DELETE
-```ts
+// DELETE
 await api.del<void>("/users/1");
-console.log("Deleted successfully");
 ```
 
 ---
 
-## 🛡️ Type Safety
-
-All helpers are generic, so you can pass your own types for full IntelliSense and compile‑time safety:
-
+### Datetime Utilities
 ```ts
-type Product = { id: string; price: number };
+import { formatDate, timeAgo, convertTimezone } from "@rajkumarganesan93/uifunctions";
 
-const response = await api.get<Product[]>("/products");
-const products: Product[] = response.data;
-```
+// Format date
+console.log(formatDate("2026-02-16T12:00:00Z", "dd/MM/yyyy")); 
+// "16/02/2026"
 
----
+// Relative time
+console.log(timeAgo(new Date(Date.now() - 3600000))); 
+// "1 hour ago"
 
-## 🌍 Timezone Utilities
-
-The library also includes a helper to convert dates between timezones using [Luxon](https://moment.github.io/luxon/).
-
-### Installation (Luxon types)
-
-```bash
-npm install luxon
-npm install --save-dev @types/luxon
-```
-
-### Usage
-
-```ts
-import { convertTimezone } from "@rajkumarganesan93/uifunctions";
-
-const utcDate = "2026-02-16T12:00:00Z";
-
-// Convert UTC → Asia/Kolkata
-const istDate = convertTimezone(utcDate, "UTC", "Asia/Kolkata");
-console.log(istDate); 
+// Timezone conversion
+console.log(convertTimezone("2026-02-16T12:00:00Z", "UTC", "Asia/Kolkata")); 
 // "2026-02-16T17:30:00+05:30"
-
-// Convert UTC → America/New_York
-const nyDate = convertTimezone(utcDate, "UTC", "America/New_York");
-console.log(nyDate); 
-// "2026-02-16T07:00:00-05:00"
 ```
 
-### API
+---
 
+### Text Utilities
 ```ts
-convertTimezone(
-  date: string | Date,   // Input date
-  fromZone: string,      // Source timezone (IANA string, e.g. "UTC")
-  toZone: string         // Target timezone (IANA string, e.g. "Asia/Kolkata")
-): string
-```
+import { capitalize, truncate, slugify } from "@rajkumarganesan93/uifunctions";
 
-- **date**: Accepts either a `Date` object or an ISO string.  
-- **fromZone**: The timezone of the input date.  
-- **toZone**: The timezone you want to convert to.  
-- Returns an ISO string in the target timezone.  
-- Throws an error if the date or zone is invalid.  
+// Capitalize
+console.log(capitalize("rajkumar")); // "Rajkumar"
 
----
+// Truncate
+console.log(truncate("This is a long sentence", 10)); // "This is a ..."
 
-## 📂 Typical Project Structure
-
-```
-my-app/
-  src/
-    api/
-      client.ts        <-- configureClient for axios
-    features/
-      users.ts         <-- use api.get/post/put/del
-      timezoneDemo.ts  <-- use convertTimezone
-  .env
-  package.json
+// Slugify
+console.log(slugify("Hello World Example")); // "hello-world-example"
 ```
 
 ---
 
-## 🔑 Summary
-- Install with `npm install @rajkumarganesan93/uifunctions`.  
-- Call `configureClient()` once at startup with your app’s `.env` values.  
-- Use `api.get`, `api.post`, `api.put`, `api.del` anywhere in your app with type safety.  
-- Use `convertTimezone` for reliable timezone conversions.  
+### Collections Utilities
+```ts
+import { unique, chunk, deepClone } from "@rajkumarganesan93/uifunctions";
+
+// Unique
+console.log(unique([1, 1, 2, 3])); // [1, 2, 3]
+
+// Chunk
+console.log(chunk([1, 2, 3, 4, 5], 2)); // [[1,2],[3,4],[5]]
+
+// Deep Clone
+const original = { a: 1, b: { c: 2 } };
+const copy = deepClone(original);
+console.log(copy); // { a: 1, b: { c: 2 } }
 ```
 
 ---
+
+### Validation Utilities
+```ts
+import { isEmail, isEmpty } from "@rajkumarganesan93/uifunctions";
+
+// Email validation
+console.log(isEmail("rajkumar@example.com")); // true
+console.log(isEmail("not-an-email")); // false
+
+// Empty checks
+console.log(isEmpty("")); // true
+console.log(isEmpty([])); // true
+console.log(isEmpty({})); // true
+console.log(isEmpty("Hello")); // false
+```
