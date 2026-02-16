@@ -139,10 +139,9 @@ console.log(isEmpty({})); // true
 console.log(isEmpty("Hello")); // false
 ```
 
-## 📂 Updated README Section — Exceptions Utilities
+### Exceptions Utilities
 
 ```markdown
-### Exceptions Utilities
 
 These helpers make error handling consistent and developer-friendly.
 
