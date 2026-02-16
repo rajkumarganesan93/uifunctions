@@ -139,13 +139,74 @@ console.log(isEmpty({})); // true
 console.log(isEmpty("Hello")); // false
 ```
 
+## 📂 Updated README Section — Exceptions Utilities
+
+```markdown
+### Exceptions Utilities
+
+These helpers make error handling consistent and developer-friendly.
+
+#### `safeExecute(fn)`
+Wraps a function call in `try/catch` and returns either `{ result }` or `{ error }`.
+
+```ts
+import { safeExecute } from "@rajkumarganesan93/uifunctions";
+
+const { result, error } = safeExecute(() => {
+  // risky operation
+  return JSON.parse('{"valid": true}');
+});
+
+if (error) {
+  console.error("Operation failed:", error.message);
+} else {
+  console.log("Success:", result); // { valid: true }
+}
+```
+
 ---
 
-### Exceptions Utilities
+#### `logError(error, context?)`
+Logs an error to the console with optional context.
+
+```ts
+import { logError } from "@rajkumarganesan93/uifunctions";
+
+try {
+  throw new Error("Database connection failed");
+} catch (err) {
+  logError(err, "DBService");
+  // Output: [Error] [DBService]: Database connection failed
+}
+```
+
+---
+
+#### `formatError(error)`
+Formats an error into a user-friendly string.
+
+```ts
+import { formatError } from "@rajkumarganesan93/uifunctions";
+
+try {
+  throw new Error("Invalid user input");
+} catch (err) {
+  const message = formatError(err);
+  console.log(message); 
+  // "Error: Invalid user input"
+}
+
+console.log(formatError("plain string error")); 
+// "plain string error"
+```
+
+---
+
+### Typical Usage Together
+
 ```ts
 import { safeExecute, logError, formatError } from "@rajkumarganesan93/uifunctions";
 
-// Safe execution
 const { result, error } = safeExecute(() => {
   throw new Error("Unexpected failure");
 });
@@ -154,5 +215,8 @@ if (error) {
   logError(error, "UserService");
   console.log(formatError(error)); 
   // "Error: Unexpected failure"
+} else {
+  console.log("Result:", result);
 }
+```
 ```
