@@ -1,4 +1,3 @@
-```markdown
 # @rajkumarganesan93/uifunctions
 
 A lightweight TypeScript utility library that wraps **Axios** with a configurable client and strongly‑typed helpers for GET, POST, PUT, and DELETE requests.  
@@ -32,37 +31,33 @@ configureClient({
 
 ## 🚀 Usage (Axios Helpers)
 
+All axios helpers are grouped under the `api` object.
+
 ### GET
 ```ts
-import { get } from "@rajkumarganesan93/uifunctions";
+import { api } from "@rajkumarganesan93/uifunctions";
 
 type User = { id: number; name: string };
 
-const response = await get<User[]>("/users");
+const response = await api.get<User[]>("/users");
 console.log(response.data); // typed as User[]
 ```
 
 ### POST
 ```ts
-import { post } from "@rajkumarganesan93/uifunctions";
-
-const response = await post<User>("/users", { name: "Rajkumar" });
+const response = await api.post<User>("/users", { name: "Rajkumar" });
 console.log(response.data);
 ```
 
 ### PUT
 ```ts
-import { put } from "@rajkumarganesan93/uifunctions";
-
-const response = await put<User>("/users/1", { name: "Updated Name" });
+const response = await api.put<User>("/users/1", { name: "Updated Name" });
 console.log(response.data);
 ```
 
 ### DELETE
 ```ts
-import { del } from "@rajkumarganesan93/uifunctions";
-
-await del<void>("/users/1");
+await api.del<void>("/users/1");
 console.log("Deleted successfully");
 ```
 
@@ -75,7 +70,7 @@ All helpers are generic, so you can pass your own types for full IntelliSense an
 ```ts
 type Product = { id: string; price: number };
 
-const response = await get<Product[]>("/products");
+const response = await api.get<Product[]>("/products");
 const products: Product[] = response.data;
 ```
 
@@ -120,11 +115,11 @@ convertTimezone(
 ): string
 ```
 
-- **date**: Accepts either a `Date` object or an ISO string.
-- **fromZone**: The timezone of the input date.
-- **toZone**: The timezone you want to convert to.
-- Returns an ISO string in the target timezone.
-- Throws an error if the date or zone is invalid.
+- **date**: Accepts either a `Date` object or an ISO string.  
+- **fromZone**: The timezone of the input date.  
+- **toZone**: The timezone you want to convert to.  
+- Returns an ISO string in the target timezone.  
+- Throws an error if the date or zone is invalid.  
 
 ---
 
@@ -136,7 +131,7 @@ my-app/
     api/
       client.ts        <-- configureClient for axios
     features/
-      users.ts         <-- use axios helpers
+      users.ts         <-- use api.get/post/put/del
       timezoneDemo.ts  <-- use convertTimezone
   .env
   package.json
@@ -145,10 +140,10 @@ my-app/
 ---
 
 ## 🔑 Summary
-- Install with `npm install @rajkumarganesan93/uifunctions`.
-- Call `configureClient()` once at startup with your app’s `.env` values.
-- Use `get`, `post`, `put`, `del` anywhere in your app with type safety.
-- Use `convertTimezone` for reliable timezone conversions.
+- Install with `npm install @rajkumarganesan93/uifunctions`.  
+- Call `configureClient()` once at startup with your app’s `.env` values.  
+- Use `api.get`, `api.post`, `api.put`, `api.del` anywhere in your app with type safety.  
+- Use `convertTimezone` for reliable timezone conversions.  
 ```
 
 ---

@@ -13,25 +13,19 @@ export const configureClient = (options: AxiosRequestConfig) => {
   client = axios.create(options);
 };
 
-// Generic helpers with explicit types
-export const get = async <T>(
-  url: string,
-  config?: AxiosRequestConfig
-): Promise<AxiosResponse<T>> => client.get<T>(url, config);
+/**
+ * Grouped API helpers
+ */
+export const api = {
+  get: async <T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> =>
+    client.get<T>(url, config),
 
-export const post = async <T>(
-  url: string,
-  data: unknown,
-  config?: AxiosRequestConfig
-): Promise<AxiosResponse<T>> => client.post<T>(url, data, config);
+  post: async <T>(url: string, data: unknown, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> =>
+    client.post<T>(url, data, config),
 
-export const put = async <T>(
-  url: string,
-  data: unknown,
-  config?: AxiosRequestConfig
-): Promise<AxiosResponse<T>> => client.put<T>(url, data, config);
+  put: async <T>(url: string, data: unknown, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> =>
+    client.put<T>(url, data, config),
 
-export const del = async <T>(
-  url: string,
-  config?: AxiosRequestConfig
-): Promise<AxiosResponse<T>> => client.delete<T>(url, config);
+  del: async <T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> =>
+    client.delete<T>(url, config),
+};
