@@ -1,5 +1,3 @@
-Here’s your **fully updated README.md**, ready to copy. It reflects everything we’ve scaffolded so far: **API**, **datetime**, **text**, **collections**, and **validation** groups. I’ve skipped `asyncflow` and `math` as requested.
-
 ```markdown
 # @rajkumarganesan93/uifunctions
 
@@ -9,6 +7,7 @@ A lightweight TypeScript utility library that provides:
 - **Text utilities** (`capitalize`, `truncate`, `slugify`) for string manipulation.
 - **Collections utilities** (`unique`, `chunk`, `deepClone`) for arrays and objects.
 - **Validation utilities** (`isEmail`, `isEmpty`) for common checks.
+- **Exceptions utilities** (`safeExecute`, `logError`, `formatError`) for error handling.
 
 Designed for reuse across multiple applications.
 
@@ -68,9 +67,21 @@ import { formatDate, timeAgo, convertTimezone } from "@rajkumarganesan93/uifunct
 console.log(formatDate("2026-02-16T12:00:00Z", "dd/MM/yyyy")); 
 // "16/02/2026"
 
-// Relative time
+// Relative time (long format, past)
 console.log(timeAgo(new Date(Date.now() - 3600000))); 
 // "1 hour ago"
+
+// Relative time (long format, future)
+console.log(timeAgo(new Date(Date.now() + 3 * 86400000))); 
+// "in 3 days"
+
+// Relative time (short format, past)
+console.log(timeAgo(new Date(Date.now() - 5 * 60000), { short: true })); 
+// "5m ago"
+
+// Relative time (short format, future)
+console.log(timeAgo(new Date(Date.now() + 2 * 7 * 86400000), { short: true })); 
+// "in 2w"
 
 // Timezone conversion
 console.log(convertTimezone("2026-02-16T12:00:00Z", "UTC", "Asia/Kolkata")); 
@@ -126,4 +137,22 @@ console.log(isEmpty("")); // true
 console.log(isEmpty([])); // true
 console.log(isEmpty({})); // true
 console.log(isEmpty("Hello")); // false
+```
+
+---
+
+### Exceptions Utilities
+```ts
+import { safeExecute, logError, formatError } from "@rajkumarganesan93/uifunctions";
+
+// Safe execution
+const { result, error } = safeExecute(() => {
+  throw new Error("Unexpected failure");
+});
+
+if (error) {
+  logError(error, "UserService");
+  console.log(formatError(error)); 
+  // "Error: Unexpected failure"
+}
 ```

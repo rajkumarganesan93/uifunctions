@@ -1,34 +1,48 @@
 import { describe, it, expect } from "vitest";
-import { formatDate, timeAgo } from "./dateUtils";
+import { formatDate } from "./dateUtils";
 import { convertTimezone } from "./timezone";
+import { timeAgo } from "./timeAgo";
 
 describe("dateUtils", () => {
   it("formats date correctly", () => {
     const result = formatDate("2026-02-16T12:00:00Z", "dd/MM/yyyy");
     expect(result).toBe("16/02/2026");
   });
+});
 
+describe("timeAgo with short and long formats", () => {
   it("returns 'just now' for current time", () => {
-    const result = timeAgo(new Date());
-    expect(result).toBe("just now");
+    expect(timeAgo(new Date())).toBe("just now");
   });
 
-  it("returns minutes ago", () => {
-    const past = new Date(Date.now() - 5 * 60000); // 5 minutes ago
-    const result = timeAgo(past);
-    expect(result).toContain("5 minutes ago");
+  it("handles past minutes (long)", () => {
+    const past = new Date(Date.now() - 5 * 60000);
+    expect(timeAgo(past)).toBe("5 minutes ago");
   });
 
-  it("returns hours ago", () => {
-    const past = new Date(Date.now() - 2 * 3600000); // 2 hours ago
-    const result = timeAgo(past);
-    expect(result).toContain("2 hours ago");
+  it("handles past minutes (short)", () => {
+    const past = new Date(Date.now() - 5 * 60000);
+    expect(timeAgo(past, { short: true })).toBe("5m ago");
   });
 
-  it("returns days ago", () => {
-    const past = new Date(Date.now() - 3 * 86400000); // 3 days ago
-    const result = timeAgo(past);
-    expect(result).toContain("3 days ago");
+  it("handles future days (long)", () => {
+    const future = new Date(Date.now() + 3 * 86400000);
+    expect(timeAgo(future)).toBe("in 3 days");
+  });
+
+  it("handles future days (short)", () => {
+    const future = new Date(Date.now() + 3 * 86400000);
+    expect(timeAgo(future, { short: true })).toBe("in 3d");
+  });
+
+  it("handles years ago (long)", () => {
+    const past = new Date(Date.now() - 2 * 365 * 86400000);
+    expect(timeAgo(past)).toBe("2 years ago");
+  });
+
+  it("handles years ago (short)", () => {
+    const past = new Date(Date.now() - 2 * 365 * 86400000);
+    expect(timeAgo(past, { short: true })).toBe("2y ago");
   });
 });
 

@@ -12,3 +12,6 @@ export * from "./collections";
 
 // Validation helpers (isEmail, isEmpty)
 export * from "./validation";
+
+// Exceptions helpers
+export * from "./exceptions";
