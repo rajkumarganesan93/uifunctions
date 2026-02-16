@@ -1,5 +1,5 @@
 
-# @rajkumar/uifunctions
+# @rajkumarganesan93/uifunctions
 
 A lightweight TypeScript utility library that wraps **Axios** with a configurable client and strongly‑typed helpers for GET, POST, PUT, and DELETE requests.  
 Designed for reuse across multiple applications.
@@ -8,7 +8,7 @@ Designed for reuse across multiple applications.
 
 ## 📦 Installation
 
-npm install @rajkumar/uifunctions
+npm install @rajkumarganesan93/uifunctions
 
 ---
 
@@ -17,7 +17,7 @@ npm install @rajkumar/uifunctions
 Before making requests, configure the client once at application startup:
 
 ```ts
-import { configureClient } from "@rajkumar/uifunctions";
+import { configureClient } from "@rajkumarganesan93/uifunctions";
 
 configureClient({
   baseURL: import.meta.env.VITE_API_BASE_URL, // or process.env.API_BASE_URL in Node
@@ -31,7 +31,7 @@ configureClient({
 
 ### GET
 ```ts
-import { get } from "@rajkumar/uifunctions";
+import { get } from "@rajkumarganesan93/uifunctions";
 
 type User = { id: number; name: string };
 
@@ -41,7 +41,7 @@ console.log(response.data); // typed as User[]
 
 ### POST
 ```ts
-import { post } from "@rajkumar/uifunctions";
+import { post } from "@rajkumarganesan93/uifunctions";
 
 const response = await post<User>("/users", { name: "Rajkumar" });
 console.log(response.data);
@@ -49,7 +49,7 @@ console.log(response.data);
 
 ### PUT
 ```ts
-import { put } from "@rajkumar/uifunctions";
+import { put } from "@rajkumarganesan93/uifunctions";
 
 const response = await put<User>("/users/1", { name: "Updated Name" });
 console.log(response.data);
@@ -57,7 +57,7 @@ console.log(response.data);
 
 ### DELETE
 ```ts
-import { del } from "@rajkumar/uifunctions";
+import { del } from "@rajkumarganesan93/uifunctions";
 
 await del<void>("/users/1");
 console.log("Deleted successfully");
